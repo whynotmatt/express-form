@@ -14,10 +14,8 @@ module.exports = {
     form(validate("field").isEmail())(request, {});
     assert.strictEqual(request.form.isValid, true);
     
-    assert["throws"](function() {
-      request.form.isValid = false;
-    });
-
+    // form.isValid is a getter only
+    request.form.isValid = false;
     assert.strictEqual(request.form.isValid, true);
   },
   
