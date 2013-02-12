@@ -1,6 +1,7 @@
 var assert = require("assert"),
     form = require("../index"),
-    validate = form.validate;
+    validate = form.validate,
+    utils = require('../lib/utils');
 
 module.exports = {
   'form : isValid': function() {
@@ -54,5 +55,36 @@ module.exports = {
     assert.equal(request.form.field, "me@dandean.com");
 
     form.configure({ dataSources: ['body', "query", "params"] });
+  },
+  
+  'form : configure : autoTrim': function() {
+    // request with username field containing a trailing space
+    var request = {
+      body: {
+        username: 'myuser1 '
+      }
+    };
+    
+    var request2 = utils.clone(request);
+    
+    // alphanumeric
+    var regex = /^[0-9A-Z]+$/i
+    
+    // autoTrim defaults to false, test results with it off
+    assert.strictEqual(form._options.autoTrim, false);
+    form(validate('username').is(regex))(request, {});
+    assert.strictEqual(request.form.isValid, false);
+    
+    // test results with autoTrim turned on 
+    form.configure({ autoTrim: true });
+    assert.strictEqual(form._options.autoTrim, true);
+    form(validate('username').is(regex))(request2, {});
+    assert.strictEqual(request2.form.isValid, true);
+    assert.strictEqual(request2.form.username, 'myuser1');
+    
+    // turn autoTrim back off
+    form.configure({ autoTrim: false });
+    assert.strictEqual(form._options.autoTrim, false);
   }
+  
 };
