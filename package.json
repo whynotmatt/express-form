@@ -19,7 +19,7 @@
     "express"
   ],
   "dependencies": {
-    "validator": ">= 0.1.2",
+    "validator": "0.4.x",
     "object-additions": ">= 0.5.0"
   },
   "peerDependencies": {
