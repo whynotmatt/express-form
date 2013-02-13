@@ -6,11 +6,12 @@
   "homepage": "http://dandean.github.com/express-form",
   "repository": {
     "type": "git",
-    "url": "git://github.com/dandean/express-form.git"
+    "url": "git://github.com/freewil/express-form.git"
   },
   "contributors": [
     "Marc Harter <wavded@gmail.com>",
-    "Sugarstack <@sugarstack>"
+    "Sugarstack <@sugarstack>",
+    "Sean Lavine <sean@eternalrise.com>"
   ],
   "keywords": [
     "form",
@@ -30,7 +31,7 @@
   },
   "main": "index",
   "bugs": {
-    "url": "http://github.com/dandean/express-form/issues"
+    "url": "http://github.com/freewil/express-form/issues"
   },
   "scripts": {
     "test": "expresso"
@@ -41,7 +42,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/dandean/express-form/raw/master/LICENSE"
+      "url": "http://github.com/freewil/express-form/raw/master/LICENSE"
     }
   ]
 }
