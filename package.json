@@ -27,7 +27,8 @@
     "express": "*"
   },
   "devDependencies": {
-    "expresso": "~0.9.2"
+    "expresso": "~0.9.2",
+    "express": "2.x"
   },
   "main": "index",
   "bugs": {
