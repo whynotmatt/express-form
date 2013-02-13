@@ -121,17 +121,22 @@ String Transformations
 
 #### Validator API:
 
-**Validation messages**: each validator has its own default validation message. These can easily be overridden at runtime by passing a custom validation message to the validator. The custom message is always the **last** argument passed to the validator.
+**Validation messages**: each validator has its own default validation message. 
+These can easily be overridden at runtime by passing a custom validation message 
+to the validator. The custom message is always the **last** argument passed to 
+the validator. `required()` allows you to set a placeholder (or default value)
+that your form contains when originally presented to the user. This prevents the
+placeholder value from passing the `required()` check.
 
 Use "%s" in the message to have the field name or label printed in the message:
 
     validate("username").required()
     // -> "username is required"
     
-    validate("username").required("What is your %s?")
+    validate("username").required("Type your desired username", "What is your %s?")
     // -> "What is your username?"
     
-    validate("username", "Username").required("What is your %s?")
+    validate("username", "Username").required("", "What is your %s?")
     // -> "What is your Username?"
 
 
