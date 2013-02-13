@@ -22,6 +22,12 @@
     "validator": ">= 0.1.2",
     "object-additions": ">= 0.5.0"
   },
+  "peerDependencies": {
+    "express": "*"
+  },
+  "devDependencies": {
+    "expresso": "~0.9.2"
+  },
   "main": "index",
   "bugs": {
     "url": "http://github.com/dandean/express-form/issues"
@@ -37,11 +43,5 @@
       "type": "MIT",
       "url": "http://github.com/dandean/express-form/raw/master/LICENSE"
     }
-  ],
-  "devDependencies": {
-    "expresso": "~0.9.2"
-  },
-  "peerDependencies": {
-    "express": "*"
-  }
+  ]
 }
