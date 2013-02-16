@@ -1,6 +1,6 @@
 Express Form provides data filtering and validation as route middleware to your Express applications.
 
-[![Build Status](https://travis-ci.org/freewil/express-form.png?branch=master)](https://travis-ci.org/freewil/express-form)
+[![Build Status](https://travis-ci.org/freewil/express-form.png?branch=express-2.x)](https://travis-ci.org/freewil/express-form)
 
 Usage:
 ------
