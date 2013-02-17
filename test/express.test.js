@@ -3,22 +3,11 @@ var assert = require("assert"),
     filter = form.filter,
     validate = form.validate,
     express = require("express"),
-    http = require("http"),
-    app = express();
-  
-http.createServer(app).listen(3000);
-
-// some duct-tape to make assert.response work with express 3.x
-app.address = function() {
-  return {port: 3000};
-};
-app.close = function() {
-  process.exit(0);
-};
-
+    app = express.createServer();
 
 app.configure(function() {
   app.use(express.bodyParser());
+  app.use(app.router);
 });
 
 module.exports = {
