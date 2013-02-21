@@ -201,11 +201,35 @@ module.exports = {
     form(filter("field").toUpper())(request, {});
     assert.equal(request.form.field, "HELLÖ!");
   },
+  
+  'filter : toUpper : object': function() {
+    var request = { body: { email: { key: '1' }}};
+    form(filter("email").toUpper())(request, {});
+    assert.strictEqual(request.form.email, '[OBJECT OBJECT]');
+  },
+  
+  'filter : toUpper : array': function() {
+    var request = { body: { email: ['MyEmaiL1@example.com', 'myemail2@example.org'] }};
+    form(filter("email").toUpper())(request, {});
+    assert.strictEqual(request.form.email, 'MYEMAIL1@EXAMPLE.COM');
+  },
 
   'filter : toLower': function() {
     var request = { body: { field: "HELLÖ!" }};
     form(filter("field").toLower())(request, {});
     assert.equal(request.form.field, "hellö!");
+  },
+  
+  'filter : toLower : object': function() {
+    var request = { body: { email: { key: '1' }}};
+    form(filter("email").toLower())(request, {});
+    assert.strictEqual(request.form.email, '[object object]');
+  },
+  
+  'filter : toLower : array': function() {
+    var request = { body: { email: ['MyEmaiL1@example.com', 'myemail2@example.org'] }};
+    form(filter("email").toLower())(request, {});
+    assert.strictEqual(request.form.email, 'myemail1@example.com');
   },
 
   'filter : truncate': function() {
@@ -228,6 +252,18 @@ module.exports = {
     assert.equal(request.form.field3, "123");
     assert.equal(request.form.field4, "12...");
     assert.equal(request.form.field5, "1234...");
+  },
+  
+  'filter : truncate : object': function() {
+    var request = { body: { email: { key: '1', length: 100 }}};
+    form(filter("email").truncate(10))(request, {});
+    assert.strictEqual(request.form.email, '[object...');
+  },
+  
+  'filter : truncate : array': function() {
+    var request = { body: { email: ['myemail1@example.com', 'myemail2@example.org'] }};
+    form(filter("email").truncate(11))(request, {});
+    assert.strictEqual(request.form.email, 'myemail1...');
   },
 
   'filter : custom': function() {
