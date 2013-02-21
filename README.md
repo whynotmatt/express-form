@@ -1,92 +1,111 @@
+# express-form
+
 Express Form provides data filtering and validation as route middleware to your Express applications.
 
 [![Build Status](https://travis-ci.org/freewil/express-form.png?branch=express-2.x)](https://travis-ci.org/freewil/express-form)
 
-**express 2.x: use express-form 0.7.x**
+## Install
 
-**express 3.x: use express-form 0.8.x**
+* **Express 2.x** `npm install express@0.7.x`
 
-Usage:
-------
+* **Express 3.x** `npm install express@0.8.x`
 
-    var form = require("express-form"),
-        field = form.field;
+## Usage
 
-    var app = express.createServer();
+```js
+var form = require("express-form"),
+    field = form.field;
 
-    app.configure(function() {
-      app.use(express.bodyDecoder());
-      app.use(app.router);
-    });
+var app = express.createServer();
 
-    app.post(
+app.configure(function() {
+  app.use(express.bodyDecoder());
+  app.use(app.router);
+});
 
-      // Route
-      '/user',
+app.post(
+
+  // Route
+  '/user',
       
-      // Form filter and validation middleware
-      form(
-        field("username").trim().required().is(/^[a-z]+$/),
-        field("password").trim().required().is(/^[0-9]+$/),
-        field("email").trim().isEmail()
-      ),
+  // Form filter and validation middleware
+  form(
+    field("username").trim().required().is(/^[a-z]+$/),
+    field("password").trim().required().is(/^[0-9]+$/),
+    field("email").trim().isEmail()
+   ),
       
-      // Express request-handler now receives filtered and validated data
-      function(req, res){
-        if (!req.form.isValid) {
-          // Handle errors
-          console.log(req.form.errors);
+   // Express request-handler now receives filtered and validated data
+   function(req, res){
+     if (!req.form.isValid) {
+       // Handle errors
+       console.log(req.form.errors);
 
-        } else {
-          // Or, use filtered form data from the form object:
-          console.log("Username:", req.form.username);
-          console.log("Password:", req.form.password);
-          console.log("Email:", req.form.email);
-        }
-      }
-    );
+     } else {
+       // Or, use filtered form data from the form object:
+       console.log("Username:", req.form.username);
+       console.log("Password:", req.form.password);
+       console.log("Email:", req.form.email);
+     }
+  }
+);
+```
 
-Documentation:
---------------
+## Documentation
 
 ### Module
 
-The Express Form **module** returns an Express [Route Middleware](http://expressjs.com/guide.html#Route-Middleware) function. You specify filtering and validation by passing filters and validators as arguments to the main module function. For example:
+`express-form` returns an `express` [Route Middleware](http://expressjs.com/guide.html#Route-Middleware) function. 
+You specify filtering and validation by passing filters and validators as 
+arguments to the main module function. For example:
 
-    var form = require("express-form");
+```js
+var form = require("express-form");
 
-    app.post('/user',
-      
-      // Express Form Route Middleware: trims whitespace off of
-      // the `username` field.
-      form(form.field("username").trim()),
-      
-      // standard Express handler
-      function(req, res) {
-        // ...
-      }
-    );
+app.post('/user',
 
+  // Express Form Route Middleware: trims whitespace off of
+  // the `username` field.
+  form(form.field("username").trim()),
+  
+  // standard Express handler
+  function(req, res) {
+    // ...
+  }
+);
+```
 
 ### Fields
 
 The `field` property of the module creates a filter/validator object tied to a specific field.
 
-    field(fieldname[, label]);
+```
+field(fieldname[, label]);
+```
 
 You can access nested properties with either dot or square-bracket notation.
-    
-    field("post.content").minLength(50),
-    field("post[user][id]").isInt(),
-    field("post.super.nested.property").required()
 
-Simply specifying a property like this, makes sure it exists. So, even if `req.body.post` was undefined, `req.form.post.content` would be defined. This helps avoid any unwanted errors in your code.
+```js
+field("post.content").minLength(50),
+field("post[user][id]").isInt(),
+field("post.super.nested.property").required()
+```
+
+Simply specifying a property like this, makes sure it exists. So, even if `req.body.post` was undefined, 
+`req.form.post.content` would be defined. This helps avoid any unwanted errors in your code.
 
 The API is chainable, so you can keep calling filter/validator methods one after the other:
 
-    filter("username").trim().toLower().truncate(5).required().isAlphanumeric()
+```js
+filter("username")
+  .required()
+  .trim()
+  .toLower()
+  .truncate(5)
+  .isAlphanumeric()
+```
 
-#### Filter API:
+### Filter API:
 
 Type Coercion
 
@@ -123,7 +142,7 @@ String Transformations
     truncate(length)            -> Chops value at (length - 3), appends `...`
     
 
-#### Validator API:
+### Validator API:
 
 **Validation messages**: each validator has its own default validation message. 
 These can easily be overridden at runtime by passing a custom validation message 
@@ -344,13 +363,6 @@ Express Form has various configuration options, but aims for sensible defaults f
     passThrough (Boolean): If true, all data sources will be merged with `req.form`. Default: false.
 
 
-Installation:
--------------
-
-    npm install express-form
-
-
-Credits
--------
+### Credits
 
 Currently, Express Form uses many of the validation and filtering functions provided by Chris O'Hara's [node-validator](https://github.com/chriso/node-validator).
