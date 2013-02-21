@@ -1,5 +1,8 @@
 # express-form changelog
 
+## v0.8.1 (2013/02/21)
+* cast to string for string-specific filters to prevent errors
+
 ## v0.8.0 (2013/02/16)
 * use express 3.x for peer and dev dependencies
 
