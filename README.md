@@ -13,10 +13,11 @@ Express Form provides data filtering and validation as route middleware to your 
 ## Usage
 
 ```js
-var form = require("express-form"),
+var express = require('express'),
+    form = require('express-form'),
     field = form.field;
-
-var app = express.createServer();
+    
+var app = express();
 
 app.configure(function() {
   app.use(express.bodyDecoder());
@@ -49,6 +50,8 @@ app.post(
      }
   }
 );
+
+app.listen(3000);
 ```
 
 ## Documentation
