@@ -568,6 +568,101 @@ module.exports = {
     assert.equal(request.form.errors.length, 1);
   },
   
+  "validation: custom : async": function(done) {
+    var request = { body: { field1: "value1", field2: "value2" }};
+    var next = function next() {
+      assert.strictEqual(request.form.isValid, false);
+      assert.strictEqual(request.form.errors.length, 1);
+      assert.strictEqual(request.form.errors[0], 'Invalid field1');
+      done();
+    };
+    
+    form(validate("field1").custom(function(value, source, callback) {
+      process.nextTick(function() {
+        assert.strictEqual(value, 'value1');
+        callback(new Error("Invalid %s"));
+      });
+    }))(request, {}, next);
+  },
+  
+  "validation : custom : async : success": function(done) {
+    var request = { body: { field1: "value1", field2: "value2" }};
+    var callbackCalled = false;
+    var next = function next() {
+      assert.strictEqual(callbackCalled, true);
+      assert.strictEqual(request.form.isValid, true);
+      assert.strictEqual(request.form.errors.length, 0);
+      done();
+    };
+    form(validate("field1").custom(function(value, source, callback) {
+      process.nextTick(function() {
+        assert.strictEqual(value, 'value1');
+        callbackCalled = true;
+        callback(null);
+      });
+    }))(request, {}, next);
+  },
+  
+  "validation : custom : async : chaining": function(done) {
+    var request = { body: { field1: "value1", field2: "value2" }};
+    var callbackCalled = 0;
+    var next = function next() {
+      assert.strictEqual(callbackCalled, 2);
+      assert.strictEqual(request.form.isValid, false);
+      assert.strictEqual(request.form.errors.length, 2);
+      assert.strictEqual(request.form.errors[0], 'Fail! field1');
+      assert.strictEqual(request.form.errors[1], 'yes sync custom funcs still work !! field1');
+      done();
+    };
+    
+    form(validate("field1")
+      .custom(function(value, source, callback) {
+        process.nextTick(function() {
+          ++callbackCalled;
+          callback(null);
+        });
+      })
+      .custom(function(value, source, callback) {
+        process.nextTick(function() {
+          ++callbackCalled;
+          callback(new Error('Fail! %s'));
+        });
+      })
+      .custom(function(value, source) {
+        throw new Error('yes sync custom funcs still work !! %s');
+      })
+    )(request, {}, next);
+  },
+  
+  "validation : custom : async : multiple fields": function(done) {
+    var request = { body: { field1: "value1", field2: "value2" }};
+    var callbackCalled = 0;
+    var next = function next() {
+      assert.strictEqual(callbackCalled, 2);
+      assert.strictEqual(request.form.isValid, false);
+      assert.strictEqual(request.form.errors.length, 2);
+      assert.strictEqual(request.form.errors[0], 'field1 error');
+      assert.strictEqual(request.form.errors[1], 'field2 error');
+      done();
+    };
+    form(
+      validate("field1").custom(function(value, source, callback) {
+        process.nextTick(function() {
+          ++callbackCalled;
+          assert.strictEqual(value, 'value1')
+          callback(new Error('%s error'));
+        });
+      }),
+      validate("field2").custom(function(value, source, callback) {
+        process.nextTick(function() {
+          ++callbackCalled;
+          assert.strictEqual(value, 'value2');
+          callback(new Error('%s error'));
+        });
+      })
+    )(request, {}, next);
+  },
+  
   "validation : request.form property-pollution": function() {
     var request = { body: { }};
     form()(request, {});
