@@ -1,5 +1,8 @@
 # express-form changelog
 
+## v0.10.0 (2013/10/23)
+* add support for asynchronous custom validators/filters
+
 ## v0.8.1 (2013/02/21)
 * cast to string for string-specific filters to prevent errors
 
