@@ -320,7 +320,7 @@ Use "%s" in the message to have the field name or label printed in the message:
         
         field("sport", "favorite sport").custom(function(value, source) {
           if (!source.country) {
-            throw new error('unable to validate %s');
+            throw new Error('unable to validate %s');
           }
           
           switch (source.country) {
@@ -337,6 +337,15 @@ Use "%s" in the message to have the field name or label printed in the message:
               break;
           }
           
+        });
+        
+        Asynchronous custom validator (3 argument function signature)
+        
+        form.field('username').custom(function(value, source, callback) {
+          username.check(value, function(err) {
+            if (err) return callback(new Error('Invalid %s'));
+            callback(null);
+          });
         });
     
 

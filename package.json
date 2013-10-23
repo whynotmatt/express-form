@@ -21,7 +21,8 @@
   ],
   "dependencies": {
     "validator": "0.4.x",
-    "object-additions": ">= 0.5.0"
+    "object-additions": ">= 0.5.0",
+    "async": "~0.2.9"
   },
   "peerDependencies": {
     "express": "3.x"
