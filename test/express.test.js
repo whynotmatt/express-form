@@ -4,6 +4,7 @@ var assert = require("assert"),
     validate = form.validate,
     express = require("express"),
     http = require("http"),
+    request = require("request"),
     app = express();
   
 http.createServer(app).listen(3000);
@@ -16,13 +17,12 @@ app.close = function() {
   process.exit(0);
 };
 
-
 app.configure(function() {
   app.use(express.bodyParser());
 });
 
 module.exports = {
-  'express : middleware : valid-form': function() {
+  'express : middleware : valid-form': function(done) {
     app.post(
       '/user',
       form(
@@ -38,23 +38,24 @@ module.exports = {
         assert.strictEqual(req.form.errors.length, 0);
         res.send(JSON.stringify(req.form));
       }
-    );    
-
-    assert.response(app,
-      {
-        url: '/user',
-        method: 'POST',
-        body: JSON.stringify({
-          username: "   dandean   \n\n\t",
-          password: " 12345 "
-        }),
-        headers: { 'Content-Type': 'application/json' }
-      },
-      { status: 200 }
     );
+    
+    request.post({
+      url: 'http://localhost:3000/user',
+      method: 'POST',
+      body: JSON.stringify({
+        username: "   dandean   \n\n\t",
+        password: " 12345 "
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    }, function(err, res, body) {
+      assert.ifError(err);
+      assert.strictEqual(res.statusCode, 200);
+      done();
+    });
   },
 
-  'express : middleware : merged-data': function() {
+  'express : middleware : merged-data': function(done) {
     app.post(
       '/user/:id',
       form(
@@ -75,21 +76,22 @@ module.exports = {
         
         res.send(JSON.stringify(req.form));
       }
-    );    
-
-    assert.response(app,
-      {
-        url: '/user/5?stuff=things&id=overridden',
-        method: 'POST',
-        body: JSON.stringify({
-          id: "overridden by url param",
-          stuff: "overridden by query param",
-          rad: "cool"
-        }),
-        headers: { 'Content-Type': 'application/json' }
-      },
-      { status: 200 }
     );
+    
+    request({
+      url: 'http://localhost:3000/user/5?stuff=things&id=overridden',
+      method: 'POST',
+      body: JSON.stringify({
+        id: "overridden by url param",
+        stuff: "overridden by query param",
+        rad: "cool"
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    }, function(err, res, body) {
+      assert.ifError(err);
+      assert.strictEqual(res.statusCode, 200);
+      done();
+    });
   }
 
 
