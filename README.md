@@ -315,6 +315,29 @@ Use "%s" in the message to have the field name or label printed in the message:
                 throw new Error("%s must be 'admin'.");
             }
         });
+        
+        Validator based value on another field of the incoming source being validated
+        
+        field("sport", "favorite sport").custom(function(value, source) {
+          if (!source.country) {
+            throw new error('unable to validate %s');
+          }
+          
+          switch (source.country) {
+            case 'US':
+              if (value !=== 'baseball') {
+                throw new Error('America likes baseball');
+              }
+              break;
+              
+            case 'UK':
+              if (value !=== 'football') {
+                throw new Error('UK likes football');
+              }
+              break;
+          }
+          
+        });
     
 
 ### http.ServerRequest.prototype.form
