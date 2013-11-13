@@ -470,6 +470,17 @@ module.exports = {
     form(validate("field").minLength(1))(request, {});
     assert.equal(request.form.errors.length, 0);
   },
+  
+  'validation : isString()': function() {
+    var request = { body: { username: 'adasds@example.com', password: { 'somevalue': '1' } }};
+    form(validate('password', 'Password')
+      .required()
+      .isString()
+      .minLength(10, '%s must be a minimum of 10 characters')
+      .maxLength(256, '%s must be a maximum of 256 characters'))(request, {});
+    assert.ok(!request.form.isValid);
+    assert.strictEqual(request.form.errors[0], 'Password is not a string');
+  },
 
   'validation : maxLength': function() {
     // Failure.
