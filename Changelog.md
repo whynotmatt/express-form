@@ -1,5 +1,8 @@
 # express-form changelog
 
+## v0.12.0 (2014/03/03)
+* simplify isEmail() regex (only checks for @); fixes ReDos vuln.
+
 ## v0.10.0 (2013/10/23)
 * add support for asynchronous custom validators/filters
 
