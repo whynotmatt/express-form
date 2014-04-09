@@ -1,5 +1,8 @@
 # express-form changelog
 
+## v0.12.1 (2013/04/09)
+* tighten up newly-added `isEmail()` regex
+
 ## v0.12.0 (2014/03/03)
 * simplify isEmail() regex (only checks for @); fixes ReDos vuln.
 
