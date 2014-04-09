@@ -32,7 +32,7 @@ module.exports = {
     var request = { body: {} };
     form(validate("field").isEmail())(request, {});
     assert.equal(request.form.errors.length, 0);
-    
+
     // Failure.
     var request = { body: { field: "fail" }};
     form(validate("field").isEmail())(request, {});
@@ -49,6 +49,37 @@ module.exports = {
     var request = { body: { field: "me@dandean.com" }};
     form(validate("field").isEmail())(request, {});
     assert.equal(request.form.errors.length, 0);
+
+    var validEmails = [
+      "user@host.com",
+      "user@host.info",
+      "user@host.co.uk",
+      "user+service@host.co.uk",
+      "user-ok.yes+tag@host.k12.mi.us",
+      "FirstNameLastName2000@hotmail.com"
+    ];
+
+    for (var i in validEmails) {
+      var request = { body: { field: validEmails[i] }};
+      form(validate("field").isEmail())(request, {});
+      assert.equal(request.form.errors.length, 0, 'failed to validate email: ' + validEmails[i]);
+    }
+
+    var badEmails = [
+      "dontvalidateme",
+      "nope@",
+      "someUser",
+      "<script@host.com",
+      "userawesome*@host.com",
+      "userawesom@ok.com?&vl=1"
+    ];
+
+    for (var i in badEmails) {
+      var request = { body: { field: badEmails[i] }};
+      form(validate("field").isEmail())(request, {});
+      assert.equal(request.form.errors.length, 1, 'should not validate email: ' + badEmails[i]);
+    }
+
   },
 
   'validate : isUrl': function() {
@@ -470,7 +501,7 @@ module.exports = {
     form(validate("field").minLength(1))(request, {});
     assert.equal(request.form.errors.length, 0);
   },
-  
+
   'validation : isString()': function() {
     var request = { body: { username: 'adasds@example.com', password: { 'somevalue': '1' } }};
     form(validate('password', 'Password')
@@ -518,7 +549,7 @@ module.exports = {
     var request = { body: { field: "5000.00" }};
     form(validate("field").required())(request, {});
     assert.equal(request.form.errors.length, 0);
-    
+
     // Non-required fields with no value should not trigger errors
     // Success
     var request = { body: {
@@ -561,7 +592,7 @@ module.exports = {
     }))(request, {});
     assert.equal(request.form.errors.length, 1);
     assert.equal(request.form.errors[0], "Radical field");
-    
+
     // Success
     request = { body: { field: "value" }};
     form(validate("field").custom(function(value) {}))(request, {});
@@ -578,7 +609,7 @@ module.exports = {
     }))(request, {});
     assert.equal(request.form.errors.length, 1);
   },
-  
+
   "validation: custom : async": function(done) {
     var request = { body: { field1: "value1", field2: "value2" }};
     var next = function next() {
@@ -587,7 +618,7 @@ module.exports = {
       assert.strictEqual(request.form.errors[0], 'Invalid field1');
       done();
     };
-    
+
     form(validate("field1").custom(function(value, source, callback) {
       process.nextTick(function() {
         assert.strictEqual(value, 'value1');
@@ -595,7 +626,7 @@ module.exports = {
       });
     }))(request, {}, next);
   },
-  
+
   "validation : custom : async : success": function(done) {
     var request = { body: { field1: "value1", field2: "value2" }};
     var callbackCalled = false;
@@ -613,7 +644,7 @@ module.exports = {
       });
     }))(request, {}, next);
   },
-  
+
   "validation : custom : async : chaining": function(done) {
     var request = { body: { field1: "value1", field2: "value2" }};
     var callbackCalled = 0;
@@ -625,7 +656,7 @@ module.exports = {
       assert.strictEqual(request.form.errors[1], 'yes sync custom funcs still work !! field1');
       done();
     };
-    
+
     form(validate("field1")
       .custom(function(value, source, callback) {
         process.nextTick(function() {
@@ -644,7 +675,7 @@ module.exports = {
       })
     )(request, {}, next);
   },
-  
+
   "validation : custom : async : multiple fields": function(done) {
     var request = { body: { field1: "value1", field2: "value2" }};
     var callbackCalled = 0;
@@ -673,7 +704,7 @@ module.exports = {
       })
     )(request, {}, next);
   },
-  
+
   "validation : request.form property-pollution": function() {
     var request = { body: { }};
     form()(request, {});
