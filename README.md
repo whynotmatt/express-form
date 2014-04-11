@@ -2,13 +2,13 @@
 
 Express Form provides data filtering and validation as route middleware to your Express applications.
 
-[![Build Status](https://travis-ci.org/freewil/express-form.png?branch=master)](https://travis-ci.org/freewil/express-form)
+[![Build Status](https://travis-ci.org/freewil/express-form.svg?branch=master)](https://travis-ci.org/freewil/express-form)
 
 ## Install
 
-* **Express 2.x** `npm install express-form@0.9.x`
+* **Express 2.x** `npm install express-form@0.11.x`
 
-* **Express 3.x** `npm install express-form@0.10.x`
+* **Express 3.x** `npm install express-form@0.12.x`
 
 ## Usage
 
