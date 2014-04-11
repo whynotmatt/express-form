@@ -1,6 +1,6 @@
 # express-form changelog
 
-## v0.11.1 (2013/04/09)
+## v0.11.1 (2014/04/09)
 * tighten up newly-added `isEmail()` regex
 
 ## v0.11.0 (2014/03/03)
