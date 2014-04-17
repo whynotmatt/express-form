@@ -25,7 +25,7 @@
     "async": "~0.2.9"
   },
   "peerDependencies": {
-    "express": ">=3.x"
+    "express": ">=3.0.0"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
@@ -35,7 +35,7 @@
   },
   "main": "index",
   "bugs": {
-    "url": "http://github.com/freewil/express-form/issues"
+    "url": "https://github.com/freewil/express-form/issues"
   },
   "scripts": {
     "test": "mocha"
@@ -46,7 +46,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/freewil/express-form/raw/master/LICENSE"
+      "url": "https://github.com/freewil/express-form/raw/master/LICENSE"
     }
   ]
 }
