@@ -5,6 +5,7 @@ var assert = require("assert"),
     express = require("express"),
     http = require("http"),
     request = require("request"),
+    bodyParser = require("body-parser"),
     app = express();
   
 http.createServer(app).listen(3000);
@@ -17,9 +18,7 @@ app.close = function() {
   process.exit(0);
 };
 
-app.configure(function() {
-  app.use(express.bodyParser());
-});
+app.use(bodyParser());
 
 module.exports = {
   'express : middleware : valid-form': function(done) {
