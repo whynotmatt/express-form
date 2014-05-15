@@ -256,6 +256,16 @@ Use "%s" in the message to have the field name or label printed in the message:
 
         Checks if the field does NOT contain `value`.
 
+    minLength(length[, message])
+    - length (integer): The min character to test for.
+
+        Checks the field value min length.
+
+    maxLength(length[, message])
+    - length (integer): The max character to test for.
+
+        Checks the field value max length.
+
 
 *Other*
 
