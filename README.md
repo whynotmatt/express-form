@@ -377,9 +377,9 @@ Express Form adds a `form` object with various properties to the request.
 
     function(req, res) {
       if (!req.form.isValid) {
-        console.log(req.errors);
-        console.log(req.getErrors("username"));
-        console.log(req.getErrors());
+        console.log(req.form.errors);
+        console.log(req.form.getErrors("username"));
+        console.log(req.form.getErrors());
       }
     }
 
