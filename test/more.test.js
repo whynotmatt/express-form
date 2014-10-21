@@ -196,23 +196,25 @@ module.exports = {
     assert.equal(request.form.getErrors().field3.length, 3);
   },
 
-  "field : validateErrorsAlways : custom not required with error" : function() {
+  "field : validateErrorsAlways : custom handler w/ error on an empty non-required field" : function() {
     var request = {
       body: {
-        field0: "",
+        field1: "5",
+        field2: ""
       }
     };
     var helpers = {
-      customHelperWithError: function(data){
-        throw new Error('fail');
+      customHelperWithError: function(data, source){
+        if(source.field1 === "5" && data === "") {
+          throw new Error('fail');
+        }
       }
     };
     form(
-      field("field0").custom(helpers.customHelperWithError).validateErrorsAlways()
+      field("field2").custom(helpers.customHelperWithError).validateErrorsAlways()
     )(request, {});
     assert.equal(request.form.isValid, false);
     assert.equal(request.form.errors.length, 1);
-  }
-
+  },
 
 }
