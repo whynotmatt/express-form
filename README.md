@@ -1,3 +1,8 @@
+### FORKED BECAUSE ###
+The main project at freewil is not wanting to accept the pull request: https://github.com/freewil/express-form/pull/19 which I need. So I had to fork the version at https://github.com/daxsorbito/express-form which included the necessary changes.
+
+
+
 # express-form [![Build Status](https://travis-ci.org/freewil/express-form.svg?branch=master)](https://travis-ci.org/freewil/express-form)
 
 Express Form provides data filtering and validation as route middleware to your Express applications.
